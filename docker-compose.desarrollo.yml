@@ -1,0 +1,37 @@
+version: "2"
+services:
+  commerce:
+    image: prestashop/prestashop:1.6-7.1-apache
+    env_file:
+      - commerce.env
+    links:
+      - database:database
+    ports:
+      - 8087:80
+    depends_on:
+      - database
+    volumes:
+      - ./modules:/var/www/html/modules
+      - ./classes:/var/www/html/classes
+      - ./themes:/var/www/html/themes
+
+  database:
+    image: mysql:5.6
+    env_file:
+      - database.env
+    volumes:
+      - ./commerce-database:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - database.env
+    depends_on:
+      - database
+    links:
+      - database:database
+    ports:
+      - 8088:80
+
+volumes:
+  commerce-database:

@@ -1,0 +1,12 @@
+docker run --rm -i -t -v nexus-data:/from -v /mnt/nfs/nexus-data:/to alpine ash -c "cd /from ; cp -av . /to"
+
+docker run --rm -v nexus-data:/volume -v /mnt/nfs/nexus-data:/backup alpine tar -cjf /backup/nexus-data.tar.bz2 -C /volume ./
+
+docker run --rm -v portainer_data:/volume -v /home/srugiero/Escritorio/portainer_data_bkp:/backup alpine tar -cjf /backup/some_archive.tar.bz2 -C /volume ./
+
+
+docker run --rm -v nexus-data:/volume -v /home/ubuntu/nexus-data:/backup alpine sh -c "rm -rf /volume/* /volume/..?* /volume/.[!.]* ; tar -C /volume/ -xjf /backup/nexus-data.tar.bz2"
+
+
+docker run -d -p 8081:8081  
+docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 --name pickit-nexus -v /mnt/nfs/nexus-data:/nexus-data 0d30a5a9d4ee
